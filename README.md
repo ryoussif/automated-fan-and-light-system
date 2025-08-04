@@ -1,4 +1,4 @@
-# 🔧 Automated Light & Fan Control System
+# Automated Light & Fan Control System
 
 ## Overview
 
