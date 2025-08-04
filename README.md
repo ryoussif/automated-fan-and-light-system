@@ -1,1 +1,70 @@
-<pre> # 🔧 Automated Light & Fan Control System ## 📘 Introduction This project integrates environmental sensing and user input to automate LED lighting and fan speed. The LED system automatically activates in low-light and deactivates in bright conditions using a light sensor. Similarly, a fan is controlled based on ambient temperature via the U14 temperature sensor. A potentiometer allows manual fan control. **Objective:** Develop a microcontroller-based system that reduces unnecessary power usage in everyday environments like homes and offices. --- ## 🧠 Background Automated lighting and cooling systems are increasingly used in smart homes, vehicles, and commercial settings. These systems contribute to energy efficiency, reduce operational costs, and help mitigate environmental impact. Real-world analogs include: - Smart thermostats (e.g., Nest) - Motion-sensing lights - Automatic car headlights - Smart fans with temperature feedback --- ## 🏗️ System Design and Architecture ### 📊 Key Components: - **Sensors:** Light & temperature - **Microcontroller:** Dragon-12 HCS12 board - **Actuators:** Fan (via relay) & LEDs - **User Input:** Potentiometer for manual fan speed - **Feedback Display:** LCD ### ⚙️ Design Summary: - Fan speed and LED brightness are controlled based on real-time sensor readings. - Potentiometer provides additional manual control. - LCD displays real-time system feedback. - Relay ensures isolation between board and external 5V fan to prevent damage. --- ## 🧪 Materials & Methods ### 🧰 Hardware: - Dragon-12 Microcontroller - Light sensor - Temperature sensor (U14) - Relay - Potentiometer - 5VDC Fan - LCD display - Power: 9V (board), 1.5V (fan circuit) ### 💻 Software: - CodeWarrior IDE - Assembly language programming - A/D conversion for sensor inputs - PWM for fan control - Interrupts for brightness adjustments --- ## 🔄 System Flow 1. Sensors read environmental brightness and temperature. 2. Data is converted using the HCS12 A/D system. 3. Decision logic determines LED state and fan speed. 4. LCD provides user feedback. 5. Interrupts on Port H allow manual brightness adjustment via LED shifting. --- ## 🧮 Example Code Snippets ### 🌞 LED Brightness Control ```asm Print_LED_OnOff: LDAA SAVE_LED CMPA #100 BHI LED_OFF LED_ON: ; Turn on LED and display "ON" ... RTS LED_OFF: ; Turn off LED and display "OFF" ... RTS ``` ### 💨 Fan PWM Control Based on Potentiometer ```asm ACTIVATE_FAN: BSET PTH, #$FF ; Turn fan on LDAB FAN_ON_TIME JSR ms_delay EORB #$FF STAB FAN_OFF_TIME BCLR PTH, #$FF ; Turn fan off JSR ms_delay RTS ``` ### 🖱️ Interrupt-Driven LED Brightness Shift ```asm PORTH_I: BRSET PIFH, %00000001, PUSH0 ; Dim LEDs BRSET PIFH, %00000010, PUSH1 ; Brighten LEDs ... RTI ``` --- ## 🧪 Testing & Results - **Light Sensor:** Covered with finger to simulate darkness; LED correctly turned on/off. - **LCD Display:** Validated string output. - **Fan Speed:** Verified with potentiometer across full range. - **Interrupts:** Tested Port H for manual LED brightness adjustments. --- ## ✅ Achievements - Integrated environmental sensing (light and temp) with user input. - Accurate real-time fan and LED response. - LCD feedback synchronized with system state. - Optimized and responsive assembly code. --- ## 📈 Future Improvements - Wireless/Bluetooth control for remote management. - Data logging and analytics of usage patterns. - Advanced control algorithms (e.g., PID). - Machine learning for predictive automation. - Support for mobile app control interface. --- ## 🧠 Lessons Learned - Reliable sensor-microcontroller communication requires optimized code. - Hardware isolation via relays is crucial. - Interrupt handling adds useful manual overrides. --- ## 📚 References - Huang, Han-Way. [HCS12 Reference](http://www.ee.nmt.edu/~erives/308L_09/hcs12.h) - Mazidi, *Embedded Microcontroller Systems* - YouTube: [Using Dragon12 Microcontroller Board](https://www.youtube.com/watch?v=qwrHjtpVZ0Y) </pre>
+# 🔧 Automated Light & Fan Control System
+
+## Overview
+
+This project integrates user input and environmental sensing to automate LED lighting and fan speed using the Dragon-12 microcontroller. The system automatically turns on LEDs in low-light conditions and adjusts fan speed based on ambient temperature. A potentiometer allows manual control of the fan.
+
+The goal is to reduce energy waste in environments where fans and lights are often left on unnecessarily, such as homes, offices, or classrooms.
+
+---
+
+## System Design and Architecture
+
+The system automatically controls:
+
+- **LED lighting** based on ambient brightness
+- **Fan speed** based on temperature (via the U14 temperature sensor)
+- **Manual override** via potentiometer
+
+### Key Components:
+
+- Dragon-12 Microcontroller Board
+- Light Sensor
+- U14 Temperature Sensor
+- Potentiometer
+- Relay (for motor control)
+- LCD Display
+
+---
+
+## Materials and Methods
+
+### Sensors & Inputs:
+- **Light Sensor**: Activates LEDs in darkness
+- **Temperature Sensor**: Activates fan as temperature rises
+- **Potentiometer**: User input for fan speed control
+
+### Outputs:
+- **LEDs**: Indicate brightness response
+- **Fan**: Cooled environment when needed
+- **LCD Display**: Real-time feedback (e.g., "LED: ON", "FAN: 3.5V")
+
+### Software:
+- **CodeWarrior IDE**: Used for development/debugging
+- Written in assembly for the HCS12
+
+---
+
+## Implementation
+
+### Steps:
+1. Circuit design on Dragon-12 board
+2. Sensors and potentiometer integration
+3. Development using CodeWarrior
+4. Real-time data display on LCD
+5. Control logic for LEDs and fan using sensor data
+
+---
+
+## Testing and Results
+
+Tests conducted:
+- **Light Sensor**: Finger placed to reduce brightness → LEDs triggered correctly
+- **LCD Display**: Correct feedback (e.g., "LED: OFF", "FAN: ON")
+- **Fan Output**: Potentiometer controlled voltage and fan speed
+
+### Results:
+- Reliable fan control based on temperature input
+- Accurate LED response to ambient brightness
+- Clear output messages displayed on LCD
+- Smooth user input using the potentiometer
